@@ -1,1 +1,1 @@
-sqlite3 db.db < ./setup-scripts/load-trades.sql
+sqlite3 db.db < ./queries/load-trades.sql

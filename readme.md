@@ -1,3 +1,14 @@
+## setup
+```shell
+./setup.sh
+```
+will import data from ```data/lng-trades.csv``` into a sqlite db stored in ```./db.db```.
+
+## sql queries
+execute queries like this: 
+``` shell
+sqlite3 db.db < queries/query.sql
+
 ## for the jupyter lab 
 install jupyter according to one way (explained here)[https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html]
 
