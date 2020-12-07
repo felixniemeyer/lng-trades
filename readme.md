@@ -1,3 +1,10 @@
+## for the jupyter lab 
+install jupyter according to one way (explained here)[https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html]
+
+install the plotly extension:
+```bash
+jupyter labextension install jupyterlab-plotly
+```
 
 ## execute a query template
 replace placeholders with sed
