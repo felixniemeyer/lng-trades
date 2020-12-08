@@ -4,7 +4,7 @@ import Utils
 import math
 import numpy
 import scipy
-import plotly
+from plotly import graph_objects as go
 import colorhash
 
 db_connection = sqlite3.connect('db.db')
@@ -13,8 +13,8 @@ db_cursor = db_connection.cursor()
 zone = "Zeebrugge"
 installation = "Zeebrugge"
 
-Scatter = plotly.graph_objects.Scatter
-fig = plotly.graph_objects.Figure()
+Scatter = go.Scatter
+fig = go.Figure()
 
 for flow_direction in ["in", "out"]:
     
@@ -93,15 +93,6 @@ for flow_direction in ["in", "out"]:
             line=dict(width=0.5, color=colorhash.ColorHash(neighbor).hex),
             stackgroup=stackgroup
         ))
-
-#    for neighbor in y:
-#        fig.add_trace(Scatter(
-#            x=x_dates, y=-y[neighbor],
-#            mode='lines', 
-#            name=neighbor, 
-#            line=dict(width=0.5, color=colorhash.ColorHash(neighbor).hex),
-#            stackgroup='consumers'
-#        ))
 
 plotly.io.renderers.default = "firefox"
     
