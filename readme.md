@@ -4,6 +4,11 @@
 ```
 will import data from ```data/lng-trades.csv``` into a sqlite db stored in ```./db.db```.
 
+## some requiremed python libraries
+```shell
+pip install colorhash
+```
+
 ## sql queries
 execute queries like this: 
 ``` shell
