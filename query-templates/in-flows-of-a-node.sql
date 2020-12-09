@@ -8,4 +8,5 @@ FROM
 WHERE 
   "Zone destination" == '$zone' 
   AND "Installation destination" == '$installation' 
+  AND "Trade status" == "Delivered"
 ;

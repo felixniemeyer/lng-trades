@@ -35,5 +35,8 @@ from
 			)
 		group by node
 	)
-order by bidir desc
+order by
+	bidir desc,
+	inflow desc, 
+	outflow desc
 ;
