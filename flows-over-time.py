@@ -1,27 +1,30 @@
 import sqlite3
 import datetime
-import Utils
 import math
 import numpy
 import scipy
-from plotly import graph_objects as go
+import plotly
 import colorhash
+import optparse
+
+# local
+import Utils
+
+op = optparse.OptionParser()
+op.add_option("-z", "--zone", dest="zone", default="Dahej")
+op.add_option("-i", "--installation", dest="installation", default="Dahej")
+(options, args) = op.parse_args()
 
 db_connection = sqlite3.connect('db.db')
 db_cursor = db_connection.cursor()
 
-zone = "Zeebrugge"
-installation = "Zeebrugge"
-
-Scatter = go.Scatter
-fig = go.Figure()
+Scatter = plotly.graph_objs.Scatter
+fig = plotly.graph_objs.Figure()
 
 for flow_direction in ["in", "out"]:
-    
-
     query = open("./query-templates/"+flow_direction+"-flows-of-a-node.sql").read()
-    query = query.replace('$zone', zone)
-    query = query.replace('$installation', installation)
+    query = query.replace('$zone', options.zone)
+    query = query.replace('$installation', options.installation)
 
     class Flow:
         def __init__(self, volume, date):
@@ -65,7 +68,7 @@ for flow_direction in ["in", "out"]:
         x_dates[i] = dt
         x_date_in_days[i] = dt.timestamp() / (60 * 60 * 24)
         
-    sigma = Utils.fwhm2sigma(15) # width at half height
+    sigma = Utils.fwhm2sigma(20) # width at half height
     square_sigma = sigma ** 2 
     normalization_factor = 1 / ( sigma * math.sqrt(2 * math.pi) )
 
@@ -97,8 +100,8 @@ for flow_direction in ["in", "out"]:
 plotly.io.renderers.default = "firefox"
     
 fig.update_layout(
-    title="LNG Supplier for " + zone + " / " + installation, 
-    yaxis_title="cubic meters / day"
+    title="LNG Supplier for " + options.zone + " / " + options.installation, 
+    yaxis_title="inflow [cubic meters / day]"
 )
 fig.show()
 
