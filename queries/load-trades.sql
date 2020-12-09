@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS trades_text_values; 
+DROP TABLE IF EXISTS trades;
 
 .mode csv
-.import data/lng-trades.csv trades_text_values
-
+.import data/lng-trades.csv trades
 
