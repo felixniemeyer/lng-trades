@@ -22,19 +22,32 @@ batchsize = 0
 for row in select_cur.execute("SELECT * from trades"):
     origin = row[column_dict["Zone Origin"]] + " - " + row[column_dict["Installation origin"]]
     destination = row[column_dict["Zone Destination"]] + " - " + row[column_dict["Installation Destination"]]
+    if destination == " - ": 
+        continue
     orig_volume = row[column_dict["Volume (origin m3)"]]
     dest_volume = row[column_dict["Volume (destination m3)"]]
     try: 
-        orig_date = Utils.parse_datetime(row[column_dict["End (origin)"]]).timestamp()
+        orig_date = Utils.parse_datetime(row[column_dict["Date (origin)"]]).timestamp()
     except Exception as e: 
-        orig_date = "NULL"    
+        print("no orig date")
+        orig_date = None
     try: 
-        dest_date = Utils.parse_datetime(row[column_dict["End (destination)"]]).timestamp()
+        dest_date = Utils.parse_datetime(row[column_dict["Date (destination)"]]).timestamp()
     except Exception as e: 
-        dest_date = "NULL"    
-    value_names = ["origin", "destination", "orig_volume", "dest_volume", "orig_date", "dest_date"]
+        print("no dest date")
+        dest_date = None    
+    delivered = row[column_dict["Trade status"]] == "Delivered"
+    value_names = [
+        "origin", 
+        "destination", 
+        "orig_volume", 
+        "dest_volume", 
+        "orig_date", 
+        "dest_date", 
+        "delivered"
+    ]
     query = 'INSERT OR IGNORE INTO tidy_trades ({}) VALUES ({})'.format(",".join(value_names), ",".join(["?"]*len(value_names)))
-    values = (origin, destination, orig_volume, dest_volume, orig_date, dest_date)
+    values = (origin, destination, orig_volume, dest_volume, orig_date, dest_date, delivered)
     insert_cur.execute(query, values)
     batchsize += 1
     if(batchsize > 10000):

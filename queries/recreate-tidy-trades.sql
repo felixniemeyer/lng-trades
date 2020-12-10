@@ -7,5 +7,6 @@ CREATE TABLE tidy_trades (
     orig_volume INTEGER, 
     dest_volume INTEGER, 
     orig_date INTEGER, 
-    dest_date INTEGER
+    dest_date INTEGER,
+    delivered BOOLEAN
 );
