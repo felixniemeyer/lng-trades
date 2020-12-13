@@ -62,7 +62,6 @@ for flow_direction in ["in", "out"]:
     degree_volumes = []
     current_node = None
     for row in db_cursor.execute(query):
-        print("row", flow_direction, row)
         node = row[0]
         if(node != current_node):
             if(current_node != None): 
@@ -84,7 +83,6 @@ for flow_direction in ["in", "out"]:
     if(current_node != None):
         add_to_degree_volumes(neighbors, degree_volumes, n, normalization_factor, x_date_in_days, square_sigma)
     
-    print("here", flow_direction)
     i = 1
     for degree_volume in degree_volumes:
         cf = 3 / (i + 2)
@@ -94,7 +92,8 @@ for flow_direction in ["in", "out"]:
         fig.add_trace(Scatter(
             x=x_dates, y=degree_volume if flow_direction == "in" else -degree_volume,
             mode='lines', 
-            name=flow_direction + "#{}".format(i), 
+            name=flow_direction + "#{}".format(i if i != 6 else "..."),
+            showlegend=i<7,
             line=dict(width=0.5, color=color_string),
             stackgroup=flow_direction
         ))
