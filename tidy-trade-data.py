@@ -20,8 +20,8 @@ node_outflows = []
 insert_cur.execute('BEGIN TRANSACTION')
 batchsize = 0
 for row in select_cur.execute("SELECT * from trades"):
-    origin = row[column_dict["Zone Origin"]] + " - " + row[column_dict["Installation origin"]]
-    destination = row[column_dict["Zone Destination"]] + " - " + row[column_dict["Installation Destination"]]
+    origin = row[column_dict["Zone Origin"]] + " / " + row[column_dict["Installation origin"]]
+    destination = row[column_dict["Zone Destination"]] + " / " + row[column_dict["Installation Destination"]]
     if destination == " - ": 
         continue
     orig_volume = row[column_dict["Volume (origin m3)"]]
