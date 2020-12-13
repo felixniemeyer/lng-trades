@@ -29,12 +29,12 @@ for row in select_cur.execute("SELECT * from trades"):
     try: 
         orig_date = Utils.parse_datetime(row[column_dict["Date (origin)"]]).timestamp()
     except Exception as e: 
-        print("no orig date")
+        print("no origin date. ignoring row "+row)
         orig_date = None
     try: 
         dest_date = Utils.parse_datetime(row[column_dict["Date (destination)"]]).timestamp()
     except Exception as e: 
-        print("no dest date")
+        print("no destination date. ignoring row "+str(row))
         dest_date = None    
     delivered = row[column_dict["Trade status"]] == "Delivered"
     value_names = [
