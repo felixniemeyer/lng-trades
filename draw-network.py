@@ -15,8 +15,7 @@ graph = networkx.DiGraph()
 
 nodepos = {}
 nodelabels = {}
-query = open("./queries/nodes.sql").read()
-for row in db_cursor.execute(query):
+for row in db_cursor.execute("SELECT * from nodes"):
     node = row[0]
     inflow = row[1]
     outflow = row[2]
@@ -26,8 +25,7 @@ for row in db_cursor.execute(query):
         nodelabels[node] = "" if inflow + outflow < NODE_LABEL_THRESHOLD else node.replace(" / ", "\n")
 
 nodes = graph.nodes()
-query = open("./queries/edges.sql").read()
-for row in db_cursor.execute(query):
+for row in db_cursor.execute("SELECT * from edges"):
     origin = row[0]
     destination = row[1]
     if origin in nodes and destination in nodes:
@@ -40,18 +38,19 @@ sizes = [(graph.nodes[n]['inflow'] + graph.nodes[n]['outflow']) / 50000 for n in
     
 fig = plt.figure()
 ax = fig.add_subplot()
-networkx.draw_networkx(graph, node_color='#6688cc', edge_color=(0.9,0.8,0.4), pos=nodepos, width=weights, labels=nodelabels, ax=ax, node_size=sizes)
+networkx.draw_networkx(graph, node_color='#6688cc', edge_color=(0.8,0.7,0.3,0.7), font_size=9, pos=nodepos, width=weights, labels=nodelabels, ax=ax, node_size=sizes)
 plt.tick_params(bottom=True, labelbottom=True)
 plt.xlabel("inflow / total flow")
 plt.title("Network")
+plt.savefig("./results/network.png", bbox_inches="tight", dpi=200)
 plt.show()
-plt.savefig("./results/network.png")
 
 degrees = [graph.degree(n) for n in graph.nodes()]
 plt.hist(degrees)
 plt.title("Degree Distribution")
 plt.xlabel("degree")
 plt.ylabel("occurrences")
+plt.savefig("./results/degree-distribution.png", bbox_inches="tight", dpi=200)
 plt.show()
 
 # plt.title("Weight-Degree Distribution")
